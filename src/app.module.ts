@@ -13,20 +13,26 @@ import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { OrganizerDashboardModule } from './organizer-dashboard/organizer-dashboard.module';
 import { AttendeeDashboardModule } from './attendee-dashboard/attendee-dashboard.module';
 import { UserAnalyticsModule } from './user-analytics/user-analytics.module';
+import { EventAnalyticsModule } from './event-analytics/event-analytics.module';
+import { RolesModule } from './roles/roles.module';
+import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
-    AuthModule,
-    PrismaModule,
-    GraphqlModule,
-    EventsModule,
-    TicketsModule,
-    EmailModule,
-    NotificationModule,
-    PaymentModule,
     AdminDashboardModule,
-    OrganizerDashboardModule,
     AttendeeDashboardModule,
+    AuthModule,
+    EmailModule,
+    EventAnalyticsModule,
+    EventsModule,
+    GraphqlModule,
+    NotificationModule,
+    OrganizerDashboardModule,
+    PaymentModule,
+    PrismaModule,
+    RolesModule,
+    StripeModule,
+    TicketsModule,
     UserAnalyticsModule,
   ],
   controllers: [AppController],
