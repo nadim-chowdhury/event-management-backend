@@ -1,4 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { CreateTicketInput } from './create-ticket.input';
 
 @InputType()
 export class CreateEventInput {

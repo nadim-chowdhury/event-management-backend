@@ -1,5 +1,8 @@
 import { Resolver, Query } from '@nestjs/graphql';
 import { AdminDashboardService } from './admin-dashboard.service';
+import { User } from '../user/user.model';
+import { Event } from '../event/event.model';
+import { TicketPurchase } from '../ticket-purchase/ticket-purchase.model';
 
 @Resolver()
 export class AdminDashboardResolver {
@@ -7,7 +10,8 @@ export class AdminDashboardResolver {
 
   @Query(() => String)
   async getSystemMetrics() {
-    return this.adminDashboardService.getSystemMetrics();
+    const metrics = await this.adminDashboardService.getSystemMetrics();
+    return JSON.stringify(metrics); // Assuming you want to return a JSON string
   }
 
   @Query(() => [User])
@@ -18,5 +22,10 @@ export class AdminDashboardResolver {
   @Query(() => [Event])
   async getEvents() {
     return this.adminDashboardService.getEvents();
+  }
+
+  @Query(() => [TicketPurchase])
+  async getTicketPurchases() {
+    return this.adminDashboardService.getTicketPurchases();
   }
 }

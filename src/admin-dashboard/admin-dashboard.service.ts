@@ -8,8 +8,8 @@ export class AdminDashboardService {
   async getSystemMetrics() {
     const userCount = await this.prisma.user.count();
     const eventCount = await this.prisma.event.count();
-    const ticketSales = await this.prisma.ticketPurchase.count();
-    return { userCount, eventCount, ticketSales };
+    const ticketSalesCount = await this.prisma.ticketPurchase.count(); // Note the change here
+    return { userCount, eventCount, ticketSalesCount };
   }
 
   async getUsers() {
@@ -18,5 +18,14 @@ export class AdminDashboardService {
 
   async getEvents() {
     return this.prisma.event.findMany();
+  }
+
+  async getTicketPurchases() {
+    return this.prisma.ticketPurchase.findMany({
+      include: {
+        user: true,
+        event: true,
+      },
+    });
   }
 }
