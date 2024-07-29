@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class EventAnalyticsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: any) {}
 
   async getEventPerformance(eventId: number) {
     const ticketSales = await this.prisma.ticketPurchase.aggregate({
@@ -14,7 +13,7 @@ export class EventAnalyticsService {
 
     const attendeeDemographics = await this.prisma.user.findMany({
       where: {
-        tickets: {
+        ticketPurchases: {
           some: { eventId },
         },
       },
@@ -25,6 +24,10 @@ export class EventAnalyticsService {
       },
     });
 
-    return { ticketSales, attendeeDemographics };
+    return {
+      ticketSales: ticketSales._sum.totalPrice,
+      ticketCount: ticketSales._count.id,
+      attendeeDemographics,
+    };
   }
 }

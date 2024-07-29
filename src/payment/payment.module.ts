@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { StripeService } from './stripe.service';
 import { PaymentResolver } from './payment.resolver';
+import { PaymentService } from './payment.service';
+import { StripeService } from '../stripe/stripe.service';
 
 @Module({
-  providers: [StripeService, PaymentResolver],
+  providers: [StripeService, PaymentService, PaymentResolver],
 })
 export class PaymentModule {}

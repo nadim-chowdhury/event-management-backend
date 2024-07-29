@@ -1,8 +1,8 @@
 import { Resolver, Query } from '@nestjs/graphql';
 import { AdminDashboardService } from './admin-dashboard.service';
-import { User } from '../user/user.model';
+import { User } from '../auth/user.model';
 import { Event } from '../event/event.model';
-import { TicketPurchase } from '../ticket-purchase/ticket-purchase.model';
+import { TicketPurchase } from '../tickets/ticket-purchase.model';
 
 @Resolver()
 export class AdminDashboardResolver {

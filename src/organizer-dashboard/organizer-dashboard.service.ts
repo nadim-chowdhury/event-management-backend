@@ -3,7 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class OrganizerDashboardService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: any) {}
 
   async getOrganizerEvents(organizerId: number) {
     return this.prisma.event.findMany({

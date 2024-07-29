@@ -1,29 +1,29 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { EventsService } from './events.service';
 import { CreateEventInput } from './dto/create-event.input';
 import { UpdateEventInput } from './dto/update-event.input';
-import { Event } from '@prisma/client';
+import { Event } from '../event/event.model';
 import { UseGuards } from '@nestjs/common';
-import { RolesGuard } from '../auth/roles.guard';
-import { Roles } from '../auth/roles.decorator';
-import { Role } from '@prisma/client';
+// import { Role } from '@prisma/client';
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
 
-@Resolver('Event')
+@Resolver(() => Event)
 export class EventsResolver {
   constructor(private readonly eventsService: EventsService) {}
 
   @Mutation(() => Event)
-  @Roles(Role.ORGANIZER)
+  @Roles('ORGANIZER')
   @UseGuards(RolesGuard)
   async createEvent(
     @Args('createEventInput') createEventInput: CreateEventInput,
-    @Args('organizerId') organizerId: number,
+    @Args('organizerId', { type: () => Int }) organizerId: number,
   ) {
     return this.eventsService.createEvent(createEventInput, organizerId);
   }
 
   @Mutation(() => Event)
-  @Roles(Role.ORGANIZER)
+  @Roles('ORGANIZER')
   @UseGuards(RolesGuard)
   async updateEvent(
     @Args('updateEventInput') updateEventInput: UpdateEventInput,
@@ -32,23 +32,23 @@ export class EventsResolver {
   }
 
   @Mutation(() => Boolean)
-  @Roles(Role.ORGANIZER)
+  @Roles('ORGANIZER')
   @UseGuards(RolesGuard)
-  async deleteEvent(@Args('id') id: number) {
+  async deleteEvent(@Args('id', { type: () => Int }) id: number) {
     return this.eventsService.deleteEvent(id);
   }
 
-  @Query(() => Event)
-  async event(@Args('id') id: number) {
+  @Query(() => Event, { name: 'event' })
+  async getEvent(@Args('id', { type: () => Int }) id: number) {
     return this.eventsService.getEvent(id);
   }
 
-  @Query(() => [Event])
-  async events() {
+  @Query(() => [Event], { name: 'events' })
+  async getEvents() {
     return this.eventsService.getEvents();
   }
 
-  @Query(() => [Event])
+  @Query(() => [Event], { name: 'searchEvents' })
   async searchEvents(@Args('searchTerm') searchTerm: string) {
     return this.eventsService.searchEvents(searchTerm);
   }

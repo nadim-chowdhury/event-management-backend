@@ -10,35 +10,59 @@ export class UserAnalyticsService {
       where: { userId },
     });
 
-    const totalSpent = await this.prisma.ticketPurchase.aggregate({
+    const totalSpent = await (this.prisma.ticketPurchase as any).aggregate({
       _sum: { totalPrice: true },
       where: { userId },
     });
 
-    return { eventsAttended, totalSpent };
+    return {
+      eventsAttended,
+      totalSpent: (totalSpent?._sum as any)?.totalPrice ?? 0,
+    };
   }
 
   async getUserBehavior() {
-    const activeUsers = await this.prisma.user.findMany({
+    const activeUsers = await (this.prisma.user as any).findMany({
       where: {
-        tickets: {
+        ticketPurchases: {
           some: {},
         },
       },
       select: {
         id: true,
         email: true,
-        tickets: {
+        age: true,
+        gender: true,
+        location: true,
+        ticketPurchases: {
           select: { eventId: true },
         },
       },
     });
 
-    const userDemographics = await this.prisma.user.groupBy({
-      by: ['age', 'gender', 'location'],
-      _count: { id: true },
-    });
+    const userDemographics = this.processUserDemographics(activeUsers);
 
     return { activeUsers, userDemographics };
+  }
+
+  private processUserDemographics(users: any[]) {
+    const demographics = users.reduce(
+      (acc, user) => {
+        const { age, gender, location } = user;
+
+        if (!acc.age[age]) acc.age[age] = 0;
+        if (!acc.gender[gender]) acc.gender[gender] = 0;
+        if (!acc.location[location]) acc.location[location] = 0;
+
+        acc.age[age]++;
+        acc.gender[gender]++;
+        acc.location[location]++;
+
+        return acc;
+      },
+      { age: {}, gender: {}, location: {} },
+    );
+
+    return demographics;
   }
 }

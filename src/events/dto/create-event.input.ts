@@ -18,6 +18,6 @@ export class CreateEventInput {
   @Field()
   venue: string;
 
-  @Field(() => [CreateTicketInput])
-  tickets: CreateTicketInput[];
+  @Field(() => [CreateTicketInput], { nullable: 'items' })
+  tickets?: CreateTicketInput[];
 }

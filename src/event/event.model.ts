@@ -1,6 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { User } from '../user/user.model';
-import { TicketPurchase } from '../ticket-purchase/ticket-purchase.model';
+import { User } from '../auth/user.model';
+import { TicketPurchase } from '../tickets/ticket-purchase.model';
 
 @ObjectType()
 export class Event {
