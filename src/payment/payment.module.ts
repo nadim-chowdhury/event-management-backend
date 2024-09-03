@@ -4,6 +4,6 @@ import { PaymentResolver } from './payment.resolver';
 import { StripeService } from 'src/stripe/stripe.service';
 
 @Module({
-  providers: [StripeService, PaymentResolver],
+  providers: [StripeService, PaymentService, PaymentResolver],
 })
 export class PaymentModule {}

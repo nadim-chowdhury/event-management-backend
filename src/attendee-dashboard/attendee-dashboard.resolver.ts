@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, Int } from '@nestjs/graphql';
 import { AttendeeDashboardService } from './attendee-dashboard.service';
-import { TicketPurchase } from 'src/ticket-purchase/ticket-purchase.model';
+import { TicketPurchase } from '../tickets/ticket-purchase.model';
 
 @Resolver()
 export class AttendeeDashboardResolver {

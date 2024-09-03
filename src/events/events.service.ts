@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
 import { CreateEventInput } from './dto/create-event.input';
 import { UpdateEventInput } from './dto/update-event.input';
+import { Event } from '@prisma/client';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: any) {}
 
-  async createEvent(createEventInput: CreateEventInput, organizerId: number) {
+  async createEvent(
+    createEventInput: CreateEventInput,
+    organizerId: number,
+  ): Promise<Event> {
     const { tickets, ...eventData } = createEventInput;
     // const event = await this.prisma.event.create({
     //   data: {
@@ -21,7 +25,7 @@ export class EventsService {
     return null;
   }
 
-  async updateEvent(updateEventInput: UpdateEventInput) {
+  async updateEvent(updateEventInput: UpdateEventInput): Promise<Event> {
     const { id, tickets, ...eventData } = updateEventInput;
     // const event = await this.prisma.event.update({
     //   where: { id },
@@ -36,20 +40,20 @@ export class EventsService {
     return null;
   }
 
-  async deleteEvent(id: number) {
+  async deleteEvent(id: number): Promise<boolean> {
     await this.prisma.event.delete({ where: { id } });
     return true;
   }
 
-  async getEvent(id: number) {
+  async getEvent(id: number): Promise<Event | null> {
     return this.prisma.event.findUnique({ where: { id } });
   }
 
-  async getEvents() {
+  async getEvents(): Promise<Event[]> {
     return this.prisma.event.findMany();
   }
 
-  async searchEvents(searchTerm: string) {
+  async searchEvents(searchTerm: string): Promise<Event[]> {
     return this.prisma.event.findMany({
       where: {
         OR: [

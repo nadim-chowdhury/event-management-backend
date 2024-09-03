@@ -15,11 +15,14 @@ export class UserAnalyticsService {
       where: { userId },
     });
 
-    return { eventsAttended, totalSpent };
+    return {
+      eventsAttended,
+      totalSpent: (totalSpent?._sum as any)?.totalPrice ?? 0,
+    };
   }
 
   async getUserBehavior() {
-    const activeUsers = await this.prisma.user.findMany({
+    const activeUsers = await (this.prisma.user as any).findMany({
       where: {
         // tickets: {
         //   some: {},
@@ -38,6 +41,7 @@ export class UserAnalyticsService {
     //   by: ['age', 'gender', 'location'],
     //   _count: { id: true },
     // });
+    // const userDemographics = this.processUserDemographics(activeUsers);
 
     return { activeUsers };
   }

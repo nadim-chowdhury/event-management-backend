@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, Int } from '@nestjs/graphql';
 import { TicketsService } from './tickets.service';
 import { CreateTicketInput } from './dto/create-ticket.input';
 import { PurchaseTicketInput } from './dto/purchase-ticket.input';
@@ -8,7 +8,7 @@ import { UseGuards } from '@nestjs/common';
 // import { Roles } from '../auth/roles.decorator';
 // import { Role } from '@prisma/client';
 
-@Resolver('Ticket')
+@Resolver(() => Ticket)
 export class TicketsResolver {
   constructor(private readonly ticketsService: TicketsService) {}
 
@@ -17,7 +17,7 @@ export class TicketsResolver {
   // @UseGuards(RolesGuard)
   async createTicket(
     @Args('createTicketInput') createTicketInput: CreateTicketInput,
-    @Args('eventId') eventId: number,
+    @Args('eventId', { type: () => Int }) eventId: number,
   ) {
     return this.ticketsService.createTicket(createTicketInput, eventId);
   }
@@ -27,7 +27,7 @@ export class TicketsResolver {
   // @UseGuards(RolesGuard)
   async purchaseTicket(
     @Args('purchaseTicketInput') purchaseTicketInput: PurchaseTicketInput,
-    @Args('userId') userId: number,
+    @Args('userId', { type: () => Int }) userId: number,
   ) {
     return this.ticketsService.purchaseTicket(purchaseTicketInput, userId);
   }
