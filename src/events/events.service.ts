@@ -9,31 +9,31 @@ export class EventsService {
 
   async createEvent(createEventInput: CreateEventInput, organizerId: number) {
     const { tickets, ...eventData } = createEventInput;
-    const event = await this.prisma.event.create({
-      data: {
-        ...eventData,
-        organizer: { connect: { id: organizerId } },
-        tickets: {
-          create: tickets,
-        },
-      },
-    });
-    return event;
+    // const event = await this.prisma.event.create({
+    //   data: {
+    //     ...eventData,
+    //     // organizer: { connect: { id: organizerId } },
+    //     // tickets: {
+    //     //   create: tickets,
+    //     // },
+    //   },
+    // });
+    return null;
   }
 
   async updateEvent(updateEventInput: UpdateEventInput) {
     const { id, tickets, ...eventData } = updateEventInput;
-    const event = await this.prisma.event.update({
-      where: { id },
-      data: {
-        ...eventData,
-        tickets: {
-          deleteMany: { eventId: id },
-          create: tickets,
-        },
-      },
-    });
-    return event;
+    // const event = await this.prisma.event.update({
+    //   where: { id },
+    //   data: {
+    //     ...eventData,
+    //     tickets: {
+    //       deleteMany: { eventId: id },
+    //       create: tickets,
+    //     },
+    //   },
+    // });
+    return null;
   }
 
   async deleteEvent(id: number) {
@@ -55,7 +55,7 @@ export class EventsService {
         OR: [
           { title: { contains: searchTerm, mode: 'insensitive' } },
           { description: { contains: searchTerm, mode: 'insensitive' } },
-          { venue: { contains: searchTerm, mode: 'insensitive' } },
+          // { venue: { contains: searchTerm, mode: 'insensitive' } },
         ],
       },
     });

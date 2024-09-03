@@ -8,13 +8,13 @@ export class TicketsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createTicket(createTicketInput: CreateTicketInput, eventId: number) {
-    const ticket = await this.prisma.ticket.create({
-      data: {
-        ...createTicketInput,
-        event: { connect: { id: eventId } },
-      },
-    });
-    return ticket;
+    // const ticket = await this.prisma.ticket.create({
+    //   data: {
+    //     ...createTicketInput,
+    //     event: { connect: { id: eventId } },
+    //   },
+    // });
+    return null;
   }
 
   async purchaseTicket(
@@ -22,39 +22,39 @@ export class TicketsService {
     userId: number,
   ) {
     const { ticketId, quantity } = purchaseTicketInput;
-    const ticket = await this.prisma.ticket.findUnique({
-      where: { id: ticketId },
-    });
+    // const ticket = await this.prisma.ticket.findUnique({
+    //   where: { id: ticketId },
+    // });
 
-    if (!ticket || ticket.quantity < quantity) {
-      throw new Error('Insufficient ticket quantity');
-    }
+    // if (!ticket || ticket.quantity < quantity) {
+    //   throw new Error('Insufficient ticket quantity');
+    // }
 
-    const totalPrice = ticket.price * quantity;
+    // const totalPrice = ticket.price * quantity;
 
-    const purchase = await this.prisma.ticketPurchase.create({
-      data: {
-        user: { connect: { id: userId } },
-        ticket: { connect: { id: ticketId } },
-        quantity,
-        totalPrice,
-      },
-    });
+    // const purchase = await this.prisma.ticketPurchase.create({
+    //   data: {
+    //     // user: { connect: { id: userId } },
+    //     // ticket: { connect: { id: ticketId } },
+    //     // quantity,
+    //     // totalPrice,
+    //   },
+    // });
 
-    await this.prisma.ticket.update({
-      where: { id: ticketId },
-      data: {
-        quantity: ticket.quantity - quantity,
-      },
-    });
+    // await this.prisma.ticket.update({
+    //   where: { id: ticketId },
+    //   data: {
+    //     quantity: ticket.quantity - quantity,
+    //   },
+    // });
 
-    return purchase;
+    return null;
   }
 
   async getUserTickets(userId: number) {
     return this.prisma.ticketPurchase.findMany({
       where: { userId },
-      include: { ticket: true, event: true },
+      // include: { ticket: true, event: true },
     });
   }
 }

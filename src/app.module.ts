@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
+// import { ConfigModule } from '@nestjs/config'; // Add this for environment configuration
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EmailModule } from './email/email.module';
@@ -19,6 +20,7 @@ import { StripeModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
+    // ConfigModule.forRoot({ isGlobal: true }), // Ensure this is included for environment variable management
     AdminDashboardModule,
     AttendeeDashboardModule,
     AuthModule,
@@ -31,7 +33,7 @@ import { StripeModule } from './stripe/stripe.module';
     PaymentModule,
     PrismaModule,
     RolesModule,
-    StripeModule,
+    // forwardRef(() => StripeModule), // Use forwardRef() to resolve circular dependencies
     TicketsModule,
     UserAnalyticsModule,
   ],
@@ -39,42 +41,3 @@ import { StripeModule } from './stripe/stripe.module';
   providers: [AppService],
 })
 export class AppModule {}
-
-// import { Module } from '@nestjs/common';
-// import { AuthModule } from './auth/auth.module';
-// import { PrismaModule } from './prisma/prisma.module';
-// import { GraphqlModule } from './graphql/graphql.module';
-
-// @Module({
-//   imports: [AuthModule, PrismaModule, GraphqlModule],
-// })
-// export class AppModule {}
-
-// import { Module } from '@nestjs/common';
-// import { AuthModule } from './auth/auth.module';
-// import { PrismaModule } from './prisma/prisma.module';
-// import { GraphqlModule } from './graphql/graphql.module';
-// import { EventsModule } from './events/events.module';
-
-// @Module({
-//   imports: [AuthModule, PrismaModule, GraphqlModule, EventsModule],
-// })
-// export class AppModule {}
-
-// import { Module } from '@nestjs/common';
-// import { AuthModule } from './auth/auth.module';
-// import { PrismaModule } from './prisma/prisma.module';
-// import { GraphqlModule } from './graphql/graphql.module';
-// import { EventsModule } from './events/events.module';
-// import { TicketsModule } from './tickets/tickets.module';
-
-// @Module({
-//   imports: [
-//     AuthModule,
-//     PrismaModule,
-//     GraphqlModule,
-//     EventsModule,
-//     TicketsModule,
-//   ],
-// })
-// export class AppModule {}

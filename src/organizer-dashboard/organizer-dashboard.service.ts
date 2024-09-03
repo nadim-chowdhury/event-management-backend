@@ -7,10 +7,10 @@ export class OrganizerDashboardService {
 
   async getOrganizerEvents(organizerId: number) {
     return this.prisma.event.findMany({
-      where: { organizerId },
+      // where: { organizerId },
       include: {
-        tickets: true,
-        purchases: true,
+        // tickets: true,
+        // purchases: true,
       },
     });
   }

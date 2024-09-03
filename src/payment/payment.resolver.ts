@@ -1,7 +1,8 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { StripeService } from './stripe.service';
+// import { StripeService } from './stripe.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { ConfirmPaymentDto } from './dto/confirm-payment.dto';
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Resolver()
 export class PaymentResolver {

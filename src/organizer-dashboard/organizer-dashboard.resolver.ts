@@ -1,5 +1,6 @@
 import { Resolver, Query, Args, Int } from '@nestjs/graphql';
 import { OrganizerDashboardService } from './organizer-dashboard.service';
+import { TicketPurchase } from 'src/ticket-purchase/ticket-purchase.model';
 
 @Resolver()
 export class OrganizerDashboardResolver {

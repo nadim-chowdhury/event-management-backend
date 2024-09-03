@@ -32,10 +32,11 @@ model Event {
 }
 
 model TicketPurchase {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  eventId   Int
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  event     Event    @relation(fields: [eventId], references: [id])
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  eventId    Int
+  createdAt  DateTime @default(now())
+  totalPrice Float // Ensure this field exists if you want to aggregate over it
+  user       User     @relation(fields: [userId], references: [id])
+  event      Event    @relation(fields: [eventId], references: [id])
 }

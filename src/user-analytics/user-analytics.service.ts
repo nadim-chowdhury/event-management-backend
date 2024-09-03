@@ -11,7 +11,7 @@ export class UserAnalyticsService {
     });
 
     const totalSpent = await this.prisma.ticketPurchase.aggregate({
-      _sum: { totalPrice: true },
+      // _sum: { totalPrice: true },
       where: { userId },
     });
 
@@ -21,24 +21,24 @@ export class UserAnalyticsService {
   async getUserBehavior() {
     const activeUsers = await this.prisma.user.findMany({
       where: {
-        tickets: {
-          some: {},
-        },
+        // tickets: {
+        //   some: {},
+        // },
       },
       select: {
         id: true,
         email: true,
-        tickets: {
-          select: { eventId: true },
-        },
+        // tickets: {
+        //   select: { eventId: true },
+        // },
       },
     });
 
-    const userDemographics = await this.prisma.user.groupBy({
-      by: ['age', 'gender', 'location'],
-      _count: { id: true },
-    });
+    // const userDemographics = await this.prisma.user.groupBy({
+    //   by: ['age', 'gender', 'location'],
+    //   _count: { id: true },
+    // });
 
-    return { activeUsers, userDemographics };
+    return { activeUsers };
   }
 }

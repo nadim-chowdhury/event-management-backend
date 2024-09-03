@@ -12,10 +12,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.prisma.user.findUnique({ where: { email } });
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const { password, ...result } = user;
-      return result;
-    }
+    // if (user && (await bcrypt.compare(password, user.password))) {
+    //   const { password, ...result } = user;
+    //   return result;
+    // }
     return null;
   }
 
@@ -28,13 +28,13 @@ export class AuthService {
 
   async signup(email: string, password: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await this.prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-      },
-    });
-    return user;
+    // const user = await this.prisma.user.create({
+    //   // data: {
+    //   //   email,
+    //   //   // password: hashedPassword,
+    //   // },
+    // });
+    return null;
   }
 }
 
